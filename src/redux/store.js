@@ -1,8 +1,8 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import root from "./slice";
+import { configureStore } from "@reduxjs/toolkit";
+import root from "./slice";
 
-// export default configureStore({
-//   reducer: {
-//     root,
-//   },
-// });
+export default configureStore({
+  reducer: {
+    root,
+  },
+});
