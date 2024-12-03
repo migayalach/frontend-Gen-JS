@@ -1,11 +1,17 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import { postAssistanceDate } from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
-// export const Slice = createSlice({
-//   name: "root",
-//   initialState: {},
-//   reducers: {},
-// });
+export const Slice = createSlice({
+  name: "root",
+  initialState: {
+    users: [],
+  },
+  reducers: {
+    // *USERS
+    getAllUsers: (state, action) => {
+      state.users = action.payload;
+    },
+  },
+});
 
-// export const {} = Slice.actions;
-// export default Slice.reducer;
+export const { getAllUsers } = Slice.actions;
+export default Slice.reducer;
