@@ -9,13 +9,15 @@ function page() {
   const dispatch = useDispatch();
   const selectProducts = useSelector(({ root }) => root.products);
   const selectState = useSelector(({ root }) => root.state);
+  const selectLogin = useSelector(({ root }) => root.login);
+  const levelAccess = selectLogin?.access;
 
   useEffect(() => {
     dispatch(getProductsll());
   }, []);
 
   useEffect(() => {
-    if (selectState === "product-delete") {
+    if (selectState?.state === "product-delete") {
       dispatch(getProductsll());
       setTimeout(() => {
         dispatch(stateClear());
@@ -29,11 +31,20 @@ function page() {
         List products
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-        <Cards list={selectProducts} />
+        <Cards
+          list={selectProducts}
+          vie={levelAccess}
+          user={selectLogin?.data?.idUser}
+        />
       </div>
-      <div>
-        <CreateProduct flag="Create-product" />
-      </div>
+      {levelAccess && (
+        <div>
+          <CreateProduct
+            flag="Create-product"
+            user={selectLogin?.data?.idUser}
+          />
+        </div>
+      )}
     </div>
   );
 }
