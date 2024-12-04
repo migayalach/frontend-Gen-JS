@@ -3,6 +3,8 @@ import {
   getAllUsers,
   getAllProducts,
   getIdProduct,
+  postProduct,
+  putProduct,
   removeProduct,
   clearState,
   clearAux,
@@ -60,6 +62,17 @@ export const getProductsll = () => {
   };
 };
 
+export const addProduct = (info) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.post(`${URL}/product`, info)).data;
+      return dispatch(postProduct(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
 export const deleteProduct = (idProduct) => {
   return async function (dispatch) {
     try {
@@ -76,6 +89,17 @@ export const getProductId = (idProduct) => {
     try {
       const data = (await axios.get(`${URL}/product/${idProduct}`)).data;
       return dispatch(getIdProduct(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const updateProduct = (info) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.put(`${URL}/product`, info)).data;
+      return dispatch(putProduct(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
