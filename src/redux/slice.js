@@ -26,6 +26,15 @@ export const Slice = createSlice({
       state.products = [];
     },
 
+    postProduct: (state, action) => {
+      state.state = action.payload.state;
+      state.products = action.payload.data;
+    },
+
+    putProduct: (state, action) => {
+      state.aux = action.payload;
+    },
+
     removeProduct: (state, action) => {
       state.state = action.payload;
     },
@@ -52,6 +61,8 @@ export const {
   getAllUsers,
   getAllProducts,
   getIdProduct,
+  postProduct,
+  putProduct,
   removeProduct,
   clearState,
   clearAux,
