@@ -1,15 +1,27 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
-
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+import { loginUser } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 function LoginForm() {
+  const dispatch = useDispatch();
+  const [data, setData] = useState({
+    emailUser: "",
+    passwordUser: "",
+  });
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const onFinish = () => {
+    dispatch(loginUser(data));
+  };
+
   return (
     <div>
       <Form
@@ -18,7 +30,7 @@ function LoginForm() {
           span: 8,
         }}
         wrapperCol={{
-          span: 16,
+          span: 14,
         }}
         style={{
           maxWidth: 600,
@@ -27,33 +39,30 @@ function LoginForm() {
           remember: true,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="Email"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Please input your emailUser!",
             },
           ]}
         >
-          <Input />
+          <Input name="emailUser" onChange={handleChange} />
         </Form.Item>
 
         <Form.Item
           label="Password"
-          name="password"
           rules={[
             {
               required: true,
-              message: "Please input your password!",
+              message: "Please input your passwordUser!",
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password name="passwordUser" onChange={handleChange} />
         </Form.Item>
 
         <Form.Item name="remember" valuePropName="checked" label={null}>
