@@ -3,7 +3,7 @@ import { FileAddOutlined } from "@ant-design/icons";
 import { FloatButton, Modal } from "antd";
 import FormProduct from "@/components/form/formProduct/FormProduct";
 
-function CreateProduct({ flag }) {
+function CreateProduct({ flag, user }) {
   const [modal, setModal] = useState(false);
 
   const showModal = () => {
@@ -39,12 +39,13 @@ function CreateProduct({ flag }) {
           onCancel={handleCancel}
           footer={null}
         >
-          {flag === "Create-product" && <FormProduct flag={flag} />}
-          {flag === "Edit-product" && <FormProduct flag={flag} />}
+          {flag === "Create-product" && <FormProduct flag={flag} user={user} />}
+          {flag === "Edit-product" && <FormProduct flag={flag} user={user} />}
         </Modal>
       )}
     </>
   );
+  user;
 }
 
 export default CreateProduct;
