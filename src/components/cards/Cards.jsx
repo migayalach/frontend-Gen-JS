@@ -19,8 +19,8 @@ function Cards({ list }) {
 
   return (
     <>
-      {list.map(
-        ({ idProduct, nameProduct, codeProduct, priceProduct, urlProduct }) => (
+      {list?.map(
+        ({ idProduct, nameProduct, priceProduct, urlProduct }) => (
           <Card
             key={idProduct}
             hoverable
@@ -60,9 +60,6 @@ function Cards({ list }) {
                   ${priceProduct}
                 </span>
               </div>
-              <p className="text-gray-600 mt-4 leading-relaxed">
-                Code: {codeProduct}
-              </p>
             </div>
           </Card>
         )
