@@ -18,8 +18,8 @@
 }
 
 .image-photo-head {
-  height: 18.5vw;
-  border-radius: 15px;
+  height: 24.5vw;
+  border-radius: 150px;
 }
 
 .profile-image {
@@ -28,7 +28,9 @@
 }
 
 .image-container {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header {
