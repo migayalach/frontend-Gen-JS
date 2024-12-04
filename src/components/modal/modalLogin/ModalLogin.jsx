@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
 import LoginForm from "../../form/loginForm/LoginForm";
 import ButtonSignUp from "@/components/button/ButtonSignUp";
 import ButtonLogin from "@/components/button/ButtonLogin";
 import FormRegister from "@/components/form/formRegister/FormRegister";
+import { useSelector } from "react-redux";
 
 function ModalLogin({ closeModal }) {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [state, setState] = useState("login");
+  const selectLogin = useSelector(({ root }) => root.login);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -22,6 +24,12 @@ function ModalLogin({ closeModal }) {
   const handleState = (value) => {
     setState(value);
   };
+
+  useEffect(() => {
+    if (selectLogin?.access) {
+      closeModal();
+    }
+  }, [selectLogin]);
 
   return (
     <div>
