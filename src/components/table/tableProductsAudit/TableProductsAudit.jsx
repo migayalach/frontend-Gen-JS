@@ -9,14 +9,14 @@ function TableProductsAudit({ list }) {
       key: "numberItem",
     },
     {
-      title: "Name product",
-      dataIndex: "nameProduct",
-      key: "nameProduct",
+      title: "Name user",
+      dataIndex: "nameUser",
+      key: "nameUser",
     },
     {
-      title: "Code product",
-      dataIndex: "codeProduct",
-      key: "codeProduct",
+      title: "Date",
+      dataIndex: "timeAction",
+      key: "timeAction",
     },
     {
       title: "Type activity",
@@ -38,6 +38,9 @@ function TableProductsAudit({ list }) {
             color = "orange";
             text = "Delete";
             break;
+          default:
+            color = "gray";
+            text = "Unknown";
         }
 
         return <Tag color={color}>{text}</Tag>;
@@ -47,37 +50,30 @@ function TableProductsAudit({ list }) {
       title: "Old data",
       dataIndex: "oldData",
       key: "oldData",
+      render: (oldData) => {
+        return oldData ? JSON.stringify(oldData, null, 2) : "-";
+      },
     },
     {
       title: "New data",
       dataIndex: "newData",
       key: "newData",
+      render: (newData) => {
+        return newData ? JSON.stringify(newData, null, 2) : "-";
+      },
     },
   ];
 
   const dataMap = (data) => {
     return data?.map(
-      (
-        {
-          nameProduct,
-          codeProduct,
-          nameUser,
-          nameAction,
-          timeAction,
-          oldData,
-          newData,
-        },
-        index
-      ) => ({
+      ({ nameUser, nameAction, timeAction, oldData, newData }, index) => ({
         key: index,
         numberItem: index + 1,
-        nameProduct,
-        codeProduct,
         nameUser,
         nameAction,
         timeAction,
-        oldData: ":D",
-        newData: "!D",
+        oldData,
+        newData,
       })
     );
   };
