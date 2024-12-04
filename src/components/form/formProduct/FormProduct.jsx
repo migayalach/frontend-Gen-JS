@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, DatePicker, Switch } from "antd";
-import { addProduct, updateProduct, getIdProduct } from "@/redux/actions";
+import { addProduct, updateProduct, auditProductAction } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import ImageCloudinary from "./ImageCloudinary";
 import dayjs from "dayjs";
 
-const dateFormat = "YYYY-MM-DD";
-
-function FormProduct({ flag }) {
+function FormProduct({ flag, user }) {
   const dispatch = useDispatch();
   const selectAux = useSelector(({ root }) => root.aux);
   const [data, setData] = useState({
@@ -21,6 +19,7 @@ function FormProduct({ flag }) {
     dateIntroProduct: "",
     stateProduct: true,
   });
+  const [passData, setPassData] = useState({});
 
   const handleChange = (event) => {
     setData({
@@ -53,17 +52,41 @@ function FormProduct({ flag }) {
   const onFinish = () => {
     if (flag === "Create-product") {
       dispatch(addProduct(data));
+      dispatch(
+        auditProductAction({
+          idUser: user,
+          idAction: 1,
+          oldData: {},
+          newData: data,
+        })
+      );
     } else if (flag === "Edit-product") {
       dispatch(updateProduct({ ...data, idProduct: selectAux?.idProduct }));
-      // setTimeout(() => {
-      //   dispatch(getIdProduct(selectAux?.idProduct));
-      // }, 200);
+      dispatch(
+        auditProductAction({
+          idUser: user,
+          idAction: 2,
+          oldData: passData,
+          newData: data,
+        })
+      );
     }
   };
 
   useEffect(() => {
     if (flag === "Edit-product") {
       setData({
+        nameProduct: selectAux?.nameProduct,
+        codeProduct: selectAux?.codeProduct,
+        priceProduct: selectAux?.priceProduct,
+        urlProduct: selectAux?.urlProduct,
+        stockProduct: selectAux?.stockProduct,
+        madeProduct: selectAux?.madeProduct,
+        sizeProduct: selectAux?.sizeProduct,
+        dateIntroProduct: selectAux?.dateIntroProduct?.substring(0, 10),
+        stateProduct: selectAux?.stateProduct,
+      });
+      setPassData({
         nameProduct: selectAux?.nameProduct,
         codeProduct: selectAux?.codeProduct,
         priceProduct: selectAux?.priceProduct,
