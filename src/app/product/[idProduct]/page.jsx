@@ -5,12 +5,11 @@ import CreateProduct from "@/components/floatOption/createProduct/CreateProduct"
 import { useSelector } from "react-redux";
 import "./styleProduct.css";
 
-// idProduct
-//
-//
-
 function page({ params }) {
   const selectAux = useSelector(({ root }) => root.aux);
+  const selectLogin = useSelector(({ root }) => root.login);
+  const levelAccess = selectLogin?.access;
+
   return (
     <>
       <div className="body-container">
@@ -59,9 +58,11 @@ function page({ params }) {
         </section>
       </div>
 
-      <div>
-        <CreateProduct flag="Edit-product" />
-      </div>
+      {levelAccess && (
+        <div>
+          <CreateProduct flag="Edit-product" user={selectLogin?.data?.idUser} />
+        </div>
+      )}
     </>
   );
 }
