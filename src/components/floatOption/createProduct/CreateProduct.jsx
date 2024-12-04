@@ -30,10 +30,14 @@ function CreateProduct({ flag }) {
 
       {modal && (
         <Modal
-          title="Create product"
+          title={
+            (flag === "Create-product" && "Create product") ||
+            (flag === "Edit-product" && "Edit product")
+          }
           open={modal}
           onOk={handleOk}
           onCancel={handleCancel}
+          footer={null}
         >
           {flag === "Create-product" && <FormProduct flag={flag} />}
           {flag === "Edit-product" && <FormProduct flag={flag} />}
