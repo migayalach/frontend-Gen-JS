@@ -37,7 +37,7 @@ function TableUser({ list }) {
 
   return (
     <div>
-      <Table columns={columns} dataSource={dataMap(list)} pagination={true} />
+      <Table columns={columns} dataSource={dataMap(list)} pagination={false} />
     </div>
   );
 }
