@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ProductOutlined,
   UsergroupDeleteOutlined,
@@ -12,7 +12,7 @@ import { Menu } from "antd";
 import Link from "next/link";
 import ModalLogin from "../modal/modalLogin/ModalLogin";
 import { useSelector, useDispatch } from "react-redux";
-import { auditUserOut } from "@/redux/actions";
+import { auditUserOut, setLoginUser } from "@/redux/actions";
 
 function NavBarMenu() {
   const [current, setCurrent] = useState("home");
@@ -26,6 +26,13 @@ function NavBarMenu() {
       auditUserOut({ idUser: selectLogin?.data?.idUser, idEntryExit: 2 })
     );
   };
+
+  useEffect(() => {
+    const data = localStorage.getItem("login");
+    if (data) {
+      dispatch(setLoginUser(JSON.parse(data)));
+    }
+  }, []);
 
   const items = [
     {
