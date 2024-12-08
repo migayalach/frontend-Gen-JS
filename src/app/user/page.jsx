@@ -7,9 +7,10 @@ import TableUser from "@/components/table/tableUser/TableUser";
 function page() {
   const dispatch = useDispatch();
   const selectUsers = useSelector(({ root }) => root.users);
-
+  const selectInfo = useSelector(({root})=> root?.login?.data?.nameLevel);
+  
   useEffect(() => {
-    dispatch(getUsersAll());
+    dispatch(getUsersAll(selectInfo));
   }, []);
 
   return (
