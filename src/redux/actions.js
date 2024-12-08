@@ -16,10 +16,10 @@ require("dotenv").config();
 const URL = `http://localhost:3001/api`;
 
 // *USER
-export const getUsersAll = () => {
+export const getUsersAll = (selectInfo) => {
   return async function (dispatch) {
     try {
-      const data = (await axios.get(`${URL}/user`)).data;
+      const data = (await axios.get(`${URL}/user?access=${selectInfo}`)).data;
       return dispatch(getAllUsers(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
@@ -42,7 +42,8 @@ export const postUsers = (info) => {
 export const auditUserOut = (info) => {
   return async function (dispatch) {
     try {
-      (await axios.post(`${URL}/entryExit`, info)).data;
+      await axios.post(`${URL}/entryExit`, info);
+      localStorage.removeItem("login");
       return;
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
@@ -166,9 +167,20 @@ export const loginUser = (info) => {
   return async function (dispatch) {
     try {
       const data = (await axios.post(`${URL}/login`, info)).data;
+      localStorage.setItem("login", JSON.stringify(data));
       return dispatch(iniciateSession(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
   };
 };
+
+export const setLoginUser = (info) => { 
+  return function (dispatch){
+    try {
+      return dispatch(iniciateSession(info));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  }
+}
