@@ -7,6 +7,7 @@ export const Slice = createSlice({
     products: [],
     audit: [],
     aux: {},
+    info: {},
     login: {},
     state: "",
     error: null,
@@ -14,7 +15,8 @@ export const Slice = createSlice({
   reducers: {
     // *USERS
     getAllUsers: (state, action) => {
-      state.users = action.payload;
+      state.users = action.payload.results;
+      state.info = action.payload.info;
     },
 
     // postUser: () => {
@@ -23,7 +25,8 @@ export const Slice = createSlice({
 
     // *PRODUCTS
     getAllProducts: (state, action) => {
-      state.products = action.payload;
+      state.products = action.payload.results;
+      state.info = action.payload.info;
     },
 
     getIdProduct: (state, action) => {
@@ -77,6 +80,6 @@ export const {
   clearAux,
   getAllAudit,
   errorResponse,
-  iniciateSession
+  iniciateSession,
 } = Slice.actions;
 export default Slice.reducer;
