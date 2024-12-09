@@ -18,6 +18,7 @@ function Cards({ list, vie, user }) {
     dispatch(
       auditProductAction({
         idUser: user,
+        idProduct: idProduct,
         idAction: 3,
         oldData: {},
         newData: {},
