@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
-import { postUsers } from "@/redux/actions";
-import { useDispatch } from "react-redux";
+import { postUsers, putUsers } from "@/redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import SelectLevel from "@/components/selector/SelectLevel";
+import { clearDataRegister } from "@/helpers/userHelper";
 
-function FormRegister() {
+function FormRegister({ list, flag }) {
   const dispatch = useDispatch();
+  const selectAux = useSelector(({ root }) => root.aux);
   const [data, setData] = useState({
+    idLevel: "",
     nameUser: "",
     lastNameUser: "",
     emailUser: "",
@@ -19,14 +23,36 @@ function FormRegister() {
     });
   };
 
-  const onFinish = () => {
-    dispatch(postUsers(data));
+  const handleLevel = (idLevel) => {
+    setData({
+      ...data,
+      idLevel,
+    });
   };
+
+  const handleEdit = () => {
+    dispatch(putUsers({ ...data, idUser: selectAux?.idUser }));
+  };
+
+  const onFinish = () => {
+    const newInfo = clearDataRegister(data);
+    // dispatch(postUsers(newInfo));
+  };
+
+  useEffect(() => {
+    setData({
+      idLevel: selectAux?.idLevel,
+      nameUser: selectAux?.nameUser,
+      lastNameUser: selectAux?.lastNameUser,
+      emailUser: selectAux?.emailUser,
+    });
+  }, [selectAux]);
+
+  // console.log(data);
 
   return (
     <div>
       <Form
-        name="basic"
         labelCol={{
           span: 8,
         }}
@@ -39,7 +65,6 @@ function FormRegister() {
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
         autoComplete="off"
       >
         <Form.Item
@@ -51,7 +76,11 @@ function FormRegister() {
             },
           ]}
         >
-          <Input name="nameUser" onChange={handleChange} />
+          <Input
+            name="nameUser"
+            value={data?.nameUser}
+            onChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item
@@ -63,7 +92,11 @@ function FormRegister() {
             },
           ]}
         >
-          <Input name="lastNameUser" onChange={handleChange} />
+          <Input
+            name="lastNameUser"
+            value={data?.lastNameUser}
+            onChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item
@@ -75,27 +108,46 @@ function FormRegister() {
             },
           ]}
         >
-          <Input name="emailUser" onChange={handleChange} />
+          <Input
+            name="emailUser"
+            value={data?.emailUser}
+            onChange={handleChange}
+          />
         </Form.Item>
 
-        <Form.Item
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your passwordUser!",
-            },
-          ]}
-        >
-          <Input.Password name="passwordUser" onChange={handleChange} />
-        </Form.Item>
+        {flag === "Edit-user" && (
+          <Form.Item label="Level">
+            <SelectLevel
+              list={list}
+              handleLevel={handleLevel}
+              levelCurrently={selectAux?.nameLevel}
+            />
+          </Form.Item>
+        )}
 
-        <Form.Item label={null}>
-          <Button type="primary" htmlType="submit">
-            Sign Up
-          </Button>
-        </Form.Item>
+        {flag !== "Edit-user" && (
+          <Form.Item
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your passwordUser!",
+              },
+            ]}
+          >
+            <Input.Password name="passwordUser" onChange={handleChange} />
+          </Form.Item>
+        )}
       </Form>
+      {flag === "Edit-user" ? (
+        <Button type="primary" htmlType="submit" onClick={handleEdit}>
+          Edit
+        </Button>
+      ) : (
+        <Button type="primary" htmlType="submit" onClick={onFinish}>
+          Sign Up
+        </Button>
+      )}
     </div>
   );
 }
