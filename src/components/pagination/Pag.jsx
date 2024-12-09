@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Pagination } from "antd";
-import { getPageUserAll, getPageProductsAll } from "@/redux/actions";
+import {
+  getPageUserAll,
+  getPageProductsAll,
+  getPageUsersAudit,
+  getPageUsersProducts,
+} from "@/redux/actions";
 import { useDispatch } from "react-redux";
 
 function Pag({ info, access, flag }) {
@@ -14,6 +19,10 @@ function Pag({ info, access, flag }) {
       dispatch(getPageUserAll(access, page));
     } else if (flag === "products") {
       dispatch(getPageProductsAll(page));
+    } else if (flag === "people-audit") {
+      dispatch(getPageUsersAudit(page));
+    } else if (flag === "product-audit") {
+      dispatch(getPageUsersProducts(page));
     }
   };
 
