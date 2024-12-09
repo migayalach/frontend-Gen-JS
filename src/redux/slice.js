@@ -28,10 +28,6 @@ export const Slice = createSlice({
       state.aux = action.payload;
     },
 
-    // postUser: () => {
-
-    // },
-
     // *PRODUCTS
     getAllProducts: (state, action) => {
       state.products = action.payload.results;
@@ -44,8 +40,9 @@ export const Slice = createSlice({
     },
 
     postProduct: (state, action) => {
+      state.products = action.payload.data.results;
+      state.info = action.payload.data.info;
       state.state = action.payload.state;
-      state.products = action.payload.data;
     },
 
     putProduct: (state, action) => {
@@ -69,7 +66,8 @@ export const Slice = createSlice({
     },
 
     getAllAudit: (state, action) => {
-      state.audit = action.payload;
+      state.audit = action.payload.results;
+      state.info = action.payload.info;
     },
 
     errorResponse: (state, action) => {
