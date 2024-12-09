@@ -36,7 +36,7 @@ function FormRegister({ list, flag }) {
 
   const onFinish = () => {
     const newInfo = clearDataRegister(data);
-    // dispatch(postUsers(newInfo));
+    dispatch(postUsers(newInfo));
   };
 
   useEffect(() => {
@@ -47,8 +47,6 @@ function FormRegister({ list, flag }) {
       emailUser: selectAux?.emailUser,
     });
   }, [selectAux]);
-
-  // console.log(data);
 
   return (
     <div>
