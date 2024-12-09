@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, DatePicker, Switch } from "antd";
-import { addProduct, updateProduct, auditProductAction } from "@/redux/actions";
+import {
+  addProduct,
+  updateProduct,
+  auditProductAction,
+  stateClear,
+} from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import ImageCloudinary from "./ImageCloudinary";
 import dayjs from "dayjs";
 
-function FormProduct({ flag, user }) {
+function FormProduct({ flag, user, actionPost }) {
   const dispatch = useDispatch();
   const selectAux = useSelector(({ root }) => root.aux);
+  const selectState = useSelector(({ root }) => root.state);
   const [data, setData] = useState({
     nameProduct: "",
     codeProduct: "",
@@ -15,7 +21,7 @@ function FormProduct({ flag, user }) {
     urlProduct: "",
     stockProduct: "",
     madeProduct: "",
-    sizeProduct: "",
+    descriptionProduct: "",
     dateIntroProduct: "",
     stateProduct: true,
   });
@@ -51,20 +57,13 @@ function FormProduct({ flag, user }) {
 
   const onFinish = () => {
     if (flag === "Create-product") {
-      dispatch(addProduct(data));
-      dispatch(
-        auditProductAction({
-          idUser: user,
-          idAction: 1,
-          oldData: {},
-          newData: data,
-        })
-      );
+      dispatch(addProduct({ ...data, idUser: user }));
     } else if (flag === "Edit-product") {
       dispatch(updateProduct({ ...data, idProduct: selectAux?.idProduct }));
       dispatch(
         auditProductAction({
           idUser: user,
+          idProduct: selectAux?.idProduct,
           idAction: 2,
           oldData: passData,
           newData: data,
@@ -82,7 +81,7 @@ function FormProduct({ flag, user }) {
         urlProduct: selectAux?.urlProduct,
         stockProduct: selectAux?.stockProduct,
         madeProduct: selectAux?.madeProduct,
-        sizeProduct: selectAux?.sizeProduct,
+        descriptionProduct: selectAux?.descriptionProduct,
         dateIntroProduct: selectAux?.dateIntroProduct?.substring(0, 10),
         stateProduct: selectAux?.stateProduct,
       });
@@ -93,12 +92,19 @@ function FormProduct({ flag, user }) {
         urlProduct: selectAux?.urlProduct,
         stockProduct: selectAux?.stockProduct,
         madeProduct: selectAux?.madeProduct,
-        sizeProduct: selectAux?.sizeProduct,
+        descriptionProduct: selectAux?.descriptionProduct,
         dateIntroProduct: selectAux?.dateIntroProduct?.substring(0, 10),
         stateProduct: selectAux?.stateProduct,
       });
     }
   }, [flag]);
+
+  useEffect(() => {
+    if (selectState === "create-product") {
+      actionPost();
+      dispatch(stateClear());
+    }
+  }, [selectState]);
 
   return (
     <div>
@@ -165,12 +171,13 @@ function FormProduct({ flag, user }) {
           />
         </Form.Item>
 
-        <Form.Item label="Size product">
-          <Input
-            name="sizeProduct"
-            value={data.sizeProduct}
-            placeholder="Please input your size Product!"
+        <Form.Item label="Description product">
+          <Input.TextArea
+            name="descriptionProduct"
+            value={data.descriptionProduct}
+            placeholder="Please input a description Product!"
             onChange={handleChange}
+            rows={7}
           />
         </Form.Item>
 
