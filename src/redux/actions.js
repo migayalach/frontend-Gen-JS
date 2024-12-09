@@ -1,6 +1,8 @@
 import axios from "axios";
 import {
+  getAllLevel,
   getAllUsers,
+  getUserId,
   getAllProducts,
   getIdProduct,
   postProduct,
@@ -8,6 +10,7 @@ import {
   removeProduct,
   clearState,
   clearAux,
+  clearLevel,
   getAllAudit,
   errorResponse,
   iniciateSession,
@@ -15,12 +18,56 @@ import {
 require("dotenv").config();
 const URL = `http://localhost:3001/api`;
 
+// *LEVEL
+export const getLevelAll = () => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.get(`${URL}/level`)).data;
+      return dispatch(getAllLevel(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
 // *USER
 export const getUsersAll = (selectInfo) => {
   return async function (dispatch) {
     try {
-      const data = (await axios.get(`${URL}/user?access=${selectInfo}`)).data;
+      const data = (
+        await axios.get(
+          `${URL}/user?access=${selectInfo ? selectInfo : "Vendedor"}`
+        )
+      ).data;
       return dispatch(getAllUsers(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const getPageUserAll = (selectInfo, page) => {
+  return async function (dispatch) {
+    try {
+      const data = (
+        await axios.get(
+          `${URL}/user?access=${
+            selectInfo ? selectInfo : "Vendedor"
+          }&page=${page}`
+        )
+      ).data;
+      return dispatch(getAllUsers(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const getIdUser = (idUser) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.get(`${URL}/user/${idUser}`)).data;
+      return dispatch(getUserId(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
@@ -31,6 +78,17 @@ export const postUsers = (info) => {
   return async function () {
     try {
       (await axios.post(`${URL}/user`, info)).data;
+      return;
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const putUsers = (info) => {
+  return async function (dispatch) {
+    try {
+      (await axios.put(`${URL}/user`, info)).data;
       return;
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
@@ -162,6 +220,16 @@ export const auxClear = () => {
   };
 };
 
+export const levelClear = () => {
+  return function (dispatch) {
+    try {
+      return dispatch(clearLevel());
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
 // *LOGIN
 export const loginUser = (info) => {
   return async function (dispatch) {
@@ -175,12 +243,12 @@ export const loginUser = (info) => {
   };
 };
 
-export const setLoginUser = (info) => { 
-  return function (dispatch){
+export const setLoginUser = (info) => {
+  return function (dispatch) {
     try {
       return dispatch(iniciateSession(info));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
-  }
-}
+  };
+};
