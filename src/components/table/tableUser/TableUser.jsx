@@ -1,7 +1,8 @@
 import React from "react";
 import { Table } from "antd";
+import ModalEdit from "@/components/modal/modalEdit/ModalEdit";
 
-function TableUser({ list }) {
+function TableUser({ list, access }) {
   const columns = [
     {
       title: "N°",
@@ -23,16 +24,30 @@ function TableUser({ list }) {
       dataIndex: "emailUser",
       key: "emailUser",
     },
+    ...(access === "Administrador"
+      ? [
+          {
+            title: "Edit",
+            key: "update",
+            render: ({ idUser }) => (
+              <ModalEdit idData={idUser} flag="Edit-user" />
+            ),
+          },
+        ]
+      : []),
   ];
 
   const dataMap = (data) => {
-    return data?.map(({ nameUser, lastNameUser, emailUser }, index) => ({
-      key: index,
-      numberItem: index + 1,
-      nameUser,
-      lastNameUser,
-      emailUser,
-    }));
+    return data?.map(
+      ({ idUser, nameUser, lastNameUser, emailUser }, index) => ({
+        key: index,
+        numberItem: index + 1,
+        idUser,
+        nameUser,
+        lastNameUser,
+        emailUser,
+      })
+    );
   };
 
   return (
