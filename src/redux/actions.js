@@ -75,10 +75,11 @@ export const getIdUser = (idUser) => {
 };
 
 export const postUsers = (info) => {
-  return async function () {
+  return async function (dispatch) {
     try {
-      (await axios.post(`${URL}/user`, info)).data;
-      return;
+      const data = (await axios.post(`${URL}/user`, info)).data;
+      localStorage.setItem("login", JSON.stringify(data));
+      return dispatch(iniciateSession(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
@@ -148,6 +149,17 @@ export const getProductsll = () => {
   return async function (dispatch) {
     try {
       const data = (await axios.get(`${URL}/product`)).data;
+      return dispatch(getAllProducts(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const getPageProductsAll = (page) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.get(`${URL}/product?page=${page}`)).data;
       return dispatch(getAllProducts(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
