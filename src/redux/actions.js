@@ -121,6 +121,17 @@ export const getAuditUser = () => {
   };
 };
 
+export const getPageUsersAudit = (page) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.get(`${URL}/entryExit?page=${page}`)).data;
+      return dispatch(getAllAudit(data));
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
 // *AUDIT-PRODUCT
 export const getAuditProduct = () => {
   return async function (dispatch) {
@@ -138,6 +149,17 @@ export const auditProductAction = (info) => {
     try {
       await axios.post(`${URL}/auditProduct`, info);
       return;
+    } catch (error) {
+      return dispatch(errorResponse(error.response.data));
+    }
+  };
+};
+
+export const getPageUsersProducts = (page) => {
+  return async function (dispatch) {
+    try {
+      const data = (await axios.get(`${URL}/auditProduct?page=${page}`)).data;
+      return dispatch(getAllAudit(data));
     } catch (error) {
       return dispatch(errorResponse(error.response.data));
     }
