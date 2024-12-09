@@ -48,7 +48,9 @@ function page({ params }) {
               Date product: {selectAux?.dateIntroProduct?.slice(0, 10)}
             </p>
             <p className="description-text">Code: {selectAux?.codeProduct}</p>
-            <p className="description-text">Size: {selectAux?.sizeProduct}</p>
+            <p className="description-text">
+              Description: {selectAux?.descriptionProduct}
+            </p>
 
             <footer>
               <span>Stock: {selectAux?.stockProduct}</span>
