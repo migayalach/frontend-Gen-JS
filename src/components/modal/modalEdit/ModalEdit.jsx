@@ -25,7 +25,7 @@ function ModalEdit({ idData, flag }) {
         <EditOutlined />
       </Button>
       <Modal
-        title="Basic Modal"
+        title="Usuario"
         open={isModalOpen}
         onCancel={handleCancel}
         footer={[
