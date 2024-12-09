@@ -6,6 +6,7 @@ export const Slice = createSlice({
     users: [],
     products: [],
     audit: [],
+    level: [],
     aux: {},
     info: {},
     login: {},
@@ -13,10 +14,18 @@ export const Slice = createSlice({
     error: null,
   },
   reducers: {
+    // *LEVEL
+    getAllLevel: (state, action) => {
+      state.level = action.payload.results;
+    },
+
     // *USERS
     getAllUsers: (state, action) => {
       state.users = action.payload.results;
       state.info = action.payload.info;
+    },
+    getUserId: (state, action) => {
+      state.aux = action.payload;
     },
 
     // postUser: () => {
@@ -55,6 +64,10 @@ export const Slice = createSlice({
       state.aux = {};
     },
 
+    clearLevel: (state, action) => {
+      state.level = [];
+    },
+
     getAllAudit: (state, action) => {
       state.audit = action.payload;
     },
@@ -70,7 +83,9 @@ export const Slice = createSlice({
 });
 
 export const {
+  getAllLevel,
   getAllUsers,
+  getUserId,
   getAllProducts,
   getIdProduct,
   postProduct,
@@ -78,6 +93,7 @@ export const {
   removeProduct,
   clearState,
   clearAux,
+  clearLevel,
   getAllAudit,
   errorResponse,
   iniciateSession,
