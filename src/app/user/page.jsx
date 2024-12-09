@@ -62,7 +62,7 @@ function page() {
         <TableUser list={selectUsers} access={selectInfoUser} />
       </main>
       <footer>
-        <Pag info={selectInfo} access={selectInfoUser} />
+        <Pag info={selectInfo} access={selectInfoUser} flag="users" />
       </footer>
     </div>
   );
