@@ -39,7 +39,9 @@ function CreateProduct({ flag, user }) {
           onCancel={handleCancel}
           footer={null}
         >
-          {flag === "Create-product" && <FormProduct flag={flag} user={user} />}
+          {flag === "Create-product" && (
+            <FormProduct flag={flag} user={user} actionPost={handleOk} />
+          )}
           {flag === "Edit-product" && <FormProduct flag={flag} user={user} />}
         </Modal>
       )}
