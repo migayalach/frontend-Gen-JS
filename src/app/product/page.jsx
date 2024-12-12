@@ -45,7 +45,7 @@ function page() {
       </main>
 
       <section>
-        {levelAccess && (
+        {(levelAccess === "Administrador" || levelAccess === "Dueño") && (
           <div>
             <CreateProduct
               flag="Create-product"
