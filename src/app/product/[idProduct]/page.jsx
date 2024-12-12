@@ -60,7 +60,7 @@ function page({ params }) {
         </section>
       </div>
 
-      {levelAccess && (
+      {(levelAccess === "Administrador" || levelAccess === "Dueño") && (
         <div>
           <CreateProduct flag="Edit-product" user={selectLogin?.data?.idUser} />
         </div>
