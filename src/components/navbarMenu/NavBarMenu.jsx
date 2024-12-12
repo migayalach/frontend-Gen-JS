@@ -55,7 +55,7 @@ function NavBarMenu() {
       icon: <ProductOutlined />,
     },
 
-    ...(levelAccess
+    ...(levelAccess === "Administrador" || levelAccess === "Dueño"
       ? [
           {
             label: "Audit",
