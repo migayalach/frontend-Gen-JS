@@ -144,7 +144,7 @@ export const getAuditProduct = () => {
   };
 };
 
-export const auditProductAction = (info) => {
+export const auditProductAction = (info) => { 
   return async function (dispatch) {
     try {
       await axios.post(`${URL}/auditProduct`, info);
